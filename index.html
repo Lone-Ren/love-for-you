@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="language" content="zh-CN">
+    <title>MoMo，这是你的专属情书</title>
+    <!-- 关键：重新引入外部样式表 -->
+    <link rel="stylesheet" href="./style/main.css">
+    <style type="text/css">
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: rgb(4, 4, 22);
+            /* 为body添加点击区域，确保能触发音乐 */
+            cursor: pointer;
+        }
+        /* 提升此规则的选择器权重，确保覆盖main.css的可能设置 */
+        .type_words#contents {
+            color: pink;
+            font-size: 1.5em;
+            text-align: center;
+            /* 允许使用空格和换行进行排版 */
+            white-space: pre-wrap;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            height: 180px;
+            padding: 20px;
+            text-transform: lowercase;
+            /* 提高层级，确保文字在画布之上 */
+            z-index: 10;
+        }
+    </style>
+</head>
+<body onclick="bodyPlayMusic()">
+    <!-- 中央文字：使用空格和回车调整格式 -->
+    <div class="type_words" id="contents">❤️送给最好看的   MoMo❤️</div>
+
+    <!-- 画布：已设置尺寸 -->
+    <canvas id="pinkboard" width="1707" height="868"></canvas>
+    <canvas id="heart" width="1000" height="600"></canvas>
+
+    <!-- 背景音乐 -->
+    <audio id="audio" src="https://music.163.com/song/media/outer/url?id=27130317.mp3" preload="auto" loop="loop"></audio>
+
+    <script>
+        var shouci = true;
+        function bodyPlayMusic() {
+            if (shouci) {
+                shouci = false;
+                audio.play();
+            }
+        };
+    </script>
+
+    <!-- 引入外部JS文件 -->
+    <script src="./js/lxheart.js"></script>
+    <script src="./js/filltext.js"></script>
+
+    <script>
+        var texts = ['❤️要看更多好看的电影哦❤️', '💗i love you💗', '❤️','Momo,今天也要好好睡觉','❤️要去享受生活呢❤️','Momo,你要健康快乐','Momo,今天也是快乐的一天','Momo,你要成为千万富翁','Momo,要在股票挣钱，挣大钱！！！'];
+        var params = new URLSearchParams(window.location.search);
+        var text = params.get('text');
+        var word = params.get('word');
+        if (text) {
+            texts = text.split(',');
+        }
+        // 设置中央文字，保留空格格式
+        document.getElementById('contents').innerHTML = word || '❤️送给最好看的最新幸运的Molly❤️';
+        // 启动动画
+        renderLxHeart(document.getElementById('heart'), '#ec9bad');
+        fillText(document.getElementById('pinkboard'), texts);
+    </script>
+</body>
+</html>
